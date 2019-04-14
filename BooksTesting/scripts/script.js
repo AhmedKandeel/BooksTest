@@ -32,7 +32,7 @@ var BorrowBook = function (controlurl, id, username) {
     }
     else
     {
-        alert("Please enter you ");
+        alert("Please enter you name");
     }
 };
 var Search = function (controlurl) {

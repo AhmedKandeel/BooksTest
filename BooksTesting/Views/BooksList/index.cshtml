@@ -61,7 +61,7 @@
                                 <p/>
                                 <div data-bind="enable: IsAvailable">
                                    <span> your Name</span>    :     <input type="text" id="@Html.Raw(book.Id)" />
-                                    <button onclick="BorrowBook('@Url.Action("BorrowBook", "BooksList")','@Html.Raw(book.Id)',$('#UserName').val())" title="Borrow">Borrow</button>
+                                    <button onclick="BorrowBook('@Url.Action("BorrowBook", "BooksList")','@Html.Raw(book.Id)',$('#@Html.Raw(book.Id)').val())" title="Borrow">Borrow</button>
                                 </div>
                             </div>
 
