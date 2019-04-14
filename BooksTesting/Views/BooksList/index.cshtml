@@ -1,0 +1,77 @@
+﻿@using BooksTesting.Models
+@using System.Web.Optimization
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title> Book Store </title>
+    @Styles.Render("~/Content/style.css")
+    @Scripts.Render("~/scripts/jquery-3.3.1.min.js")
+    @Scripts.Render("~/scripts/script.js")
+</head>
+<body>
+    <div class="BooksList">
+        @{            
+            if (Model.Data.Count > 0)
+            {
+                <!--start mapping book list-->
+                <div class="BookDetails">
+
+                    @foreach (BookModel book in Model.Data)
+                    {
+                    <!--Mapping book details-->
+                   
+                            if (!string.IsNullOrEmpty(book.Title))
+                            {
+                                <button class="accordion">@Html.Raw(book.Title)</button>
+
+                            }
+                            <div class="panel">
+                                <div>
+                                    @if (!string.IsNullOrEmpty(book.Author))
+                                    {
+                                    <span>Author : </span><span><strong>@Html.Raw(book.Author)</strong></span>
+                                    }
+                                    <span>    |     </span>
+                                    @if (!string.IsNullOrEmpty(book.Price))
+                                    {
+                                    <span>Price : </span><span><strong>@Html.Raw(book.Price)</strong>$</span>
+                                    }
+                                </div>
+                                <p/>
+                                <div>
+                                    @if (!string.IsNullOrEmpty(book.Genre))
+                                    {
+                                    <span>Genre : </span><span><strong>@Html.Raw(book.Genre)</strong></span>
+                                    }
+                                    <span>      |      </span>
+                                    @if (!string.IsNullOrEmpty(book.Publish_date))
+                                    {
+                                    <span>Publish date : </span><span><strong>@Html.Raw(book.Publish_date)</strong></span>
+                                    }
+                                </div>
+                                <p/>
+                                <div>
+                                    <span>Book Description : </span>
+                                    @if (!string.IsNullOrEmpty(book.Description))
+                                    {
+                                    <span>@Html.Raw(book.Description)</span>
+                                    }
+                                </div>
+                                <p/>
+                                <div data-bind="enable: IsAvailable">
+                                   <span> your Name</span>    :     <input type="text" id="UserName" />
+                                    <button onclick="BorrowBook('@Url.Action("BorrowBook", "BooksList")','@Html.Raw(book.Id)',$('#UserName').val())" title="Borrow">Borrow</button>
+                                </div>
+                            </div>
+
+                    }
+                </div>
+            }
+
+        }
+
+    </div>
+
+</body>
+</html>
