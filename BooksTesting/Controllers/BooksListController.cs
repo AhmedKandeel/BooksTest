@@ -15,13 +15,18 @@ namespace BooksTesting.Controllers
         {
             this.bookListRepository = new BookListRepository();
         }
-        protected JsonResult GetBooksList()
+        public JsonResult GetBooksList()
         {
             return bookListRepository.GetBooksList();
         }
-        protected JsonResult BorrowBook(string id,string username)
+        
+        public JsonResult BorrowBook(string id= null, string username = null)
         {
             return bookListRepository.Borrow(id, username);
+        }
+        public JsonResult UndoBorrowBook(string id = null)
+        {
+            return bookListRepository.UndoBorrow(id);
         }
         public ActionResult Index()
         {

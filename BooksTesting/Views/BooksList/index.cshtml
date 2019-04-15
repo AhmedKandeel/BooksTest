@@ -11,67 +11,83 @@
 </head>
 <body>
     <div class="BooksList">
-        @{            
-            if (Model.Data.Count > 0)
-            {
+        @if (Model.Data.Count > 0)
+        {
                 <!--start mapping book list-->
-                <div class="BookDetails">
+            <div class="BookDetails">
 
-                    @foreach (BookModel book in Model.Data)
-                    {
+                @foreach (BookModel book in Model.Data)
+                {
                     <!--Mapping book details-->
-                   
-                            if (!string.IsNullOrEmpty(book.Title))
-                            {
-                                <button class="accordion">@Html.Raw(book.Title)</button>
 
-                            }
-                            <div class="panel">
-                                <div>
-                                    @if (!string.IsNullOrEmpty(book.Author))
-                                    {
-                                    <span>Author : </span><span><strong>@Html.Raw(book.Author)</strong></span>
-                                    }
-                                    <span>    |     </span>
-                                    @if (!string.IsNullOrEmpty(book.Price))
-                                    {
-                                    <span>Price : </span><span><strong>@Html.Raw(book.Price)</strong>$</span>
-                                    }
-                                </div>
-                                <p/>
-                                <div>
-                                    @if (!string.IsNullOrEmpty(book.Genre))
-                                    {
-                                    <span>Genre : </span><span><strong>@Html.Raw(book.Genre)</strong></span>
-                                    }
-                                    <span>      |      </span>
-                                    @if (!string.IsNullOrEmpty(book.Publish_date))
-                                    {
-                                    <span>Publish date : </span><span><strong>@Html.Raw(book.Publish_date)</strong></span>
-                                    }
-                                </div>
-                                <p/>
-                                <div>
-                                    <span>Book Description : </span>
-                                    @if (!string.IsNullOrEmpty(book.Description))
-                                    {
-                                    <span>@Html.Raw(book.Description)</span>
-                                    }
-                                </div>
-                                <p/>
-                                <div data-bind="enable: IsAvailable">
-                                   <span> your Name</span>    :     <input type="text" id="@Html.Raw(book.Id)" />
-                                    <button onclick="BorrowBook('@Url.Action("BorrowBook", "BooksList")','@Html.Raw(book.Id)',$('#@Html.Raw(book.Id)').val())" title="Borrow">Borrow</button>
-                                </div>
-                            </div>
+                    if (!string.IsNullOrEmpty(book.Title))
+                    {
+                        <button class="accordion">@Html.Raw(book.Title)</button>
 
                     }
+                    <div class="panel">
+                        <div>
+                            @if (!string.IsNullOrEmpty(book.Author))
+                            {
+                                <span>Author : </span><span><strong>@Html.Raw(book.Author)</strong></span>
+                            }
+                            <span>    |     </span>
+                            @if (!string.IsNullOrEmpty(book.Price))
+                            {
+                                <span>Price : </span><span><strong>@Html.Raw(book.Price)</strong>$</span>
+                            }
+                        </div>
+                        <p />
+                        <div>
+                            @if (!string.IsNullOrEmpty(book.Genre))
+                            {
+                                <span>Genre : </span><span><strong>@Html.Raw(book.Genre)</strong></span>
+                            }
+                            <span>      |      </span>
+                            @if (!string.IsNullOrEmpty(book.Publish_date))
+                            {
+                                <span>Publish date : </span><span><strong>@Html.Raw(book.Publish_date)</strong></span>
+                            }
+                        </div>
+                        <p />
+                        <div>
+                            <span>Book Description : </span>
+                            @if (!string.IsNullOrEmpty(book.Description))
+                            {
+                                <span>@Html.Raw(book.Description)</span>
+                            }
+                        </div>
+                        <p />
+                        @if (!book.IsAvailable)
+                        {
+                            <div id="divBorrow_@Html.Raw(book.Id)" style="display:none;">
+                                <span>to borrow book wnter you name your Name</span>    :     <input type="text" id="@Html.Raw(book.Id)" />
+                                <button onclick="BorrowBook('@Url.Action("BorrowBook", "BooksList")','@Html.Raw(book.Id)',$('#@Html.Raw(book.Id)').val())" title="Borrow">Borrow</button>
+                            </div>
+                            <div id="divUndoBorrow_@Html.Raw(book.Id)" style="display:block;">
+                                <span>The Book Borrowed by </span>
+                                <span id="usemame_@Html.Raw(book.Id)"> @Html.Raw(book.BorrowBy.Name) </span>
+                                <button onclick="UndoBorrowBook('@Url.Action("BorrowBook", "BooksList")','@Html.Raw(book.Id)')" title="Undo Borrow">Undo Borrow</button>
+                            </div>
+                        }
+                        else
+                        {
+                            <div id="divBorrow_@Html.Raw(book.Id)" style="display:block;">
+                                <span>to borrow book wnter you name your Name</span>    :     <input type="text" id="@Html.Raw(book.Id)" />
+                                <button onclick="BorrowBook('@Url.Action("BorrowBook", "BooksList")','@Html.Raw(book.Id)',$('#@Html.Raw(book.Id)').val())" title="Borrow">Borrow</button>
+                            </div>
+
+                            <div id="divUndoBorrow_@Html.Raw(book.Id)" style="display:none;">
+                                <span>The Book Borrowed by </span>
+                                <span id="usemame_@Html.Raw(book.Id)"> @Html.Raw(book.BorrowBy.Name) </span>
+                                <button onclick="UndoBorrowBook('@Url.Action("BorrowBook", "BooksList")','@Html.Raw(book.Id)')" title="Undo Borrow">Undo Borrow</button>
+                            </div>
+                        }
+                    </div>
+                }
                 </div>
             }
-
-        }
-
-    </div>
+            </div>
 
 </body>
 </html>

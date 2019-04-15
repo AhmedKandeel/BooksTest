@@ -16,18 +16,18 @@
 });
 var BorrowBook = function (controlurl, id, username) {
     if (username != "") {
-        $.ajax({
+        $.ajax({ 
+            type: "POST",
+            data: { id: id, username: username },
             url: controlurl,
-            type: "Post",
-            contentType: "application/json",
-            data: { bookID: id, username: username },
-            success: function (result) {
-                if (result) {
-                    console.log("success");
-                }
-                else { alert("Error. Try Again Later."); }
-            },
-            fail: function () { }
+            async: true,
+            success: function (data) {
+                
+               // window.location.reload();
+                document.getElementById("divBorrow_" + id).style.display = "none";
+                document.getElementById("divUndoBorrow_" + id).style.display = "block";
+                document.getElementById("usemame_" + id).innerText = username;
+            }
         })
     }
     else
@@ -35,15 +35,25 @@ var BorrowBook = function (controlurl, id, username) {
         alert("Please enter you name");
     }
 };
-var Search = function (controlurl) {
-    $.ajax({
-        url: controlurl,
-        type: "Post",
-    contentType: "application/json",
-    success: function (result) {
-        
-    },
-    fail: function () { }
-});
+var UndoBorrowBook = function (controlurl, id, username) {
+    if (username != "") {
+        $.ajax({ 
+            type: "POST",
+            data: { id: id },
+            url: controlurl,
+            async: true,
+            success: function (data) {
+                //debugger;
+               // window.location.reload();
+                document.getElementById("divBorrow_" + id).style.display = "block";
+                document.getElementById("divUndoBorrow_" + id).style.display = "none";
+                document.getElementById("usemame_" + id).innerText = "";
+            }
+        })
+    }
+    else
+    {
+        alert("Please enter you name");
+    }
+};
 
-}

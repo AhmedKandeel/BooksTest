@@ -9,7 +9,7 @@ namespace BooksTesting.Repositories
 {
     public class BookListRepository:IBookListRepository
     {
-        private List<BookModel> bookModel = new List<BookModel>();
+        private static List<BookModel> bookModel = new List<BookModel>();
 
         //private Guid contactId;
         /// <summary>
@@ -21,16 +21,19 @@ namespace BooksTesting.Repositories
             //log : start get book list
             try
             {
-                bookModel = XmlOperations.readXML();
+                if (bookModel == null || bookModel.Count == 0)
+                {
+                    bookModel = XmlOperations.readXML();
+                }
                 return new JsonResult() { Data = bookModel };
                 //end log 
             }
-            
-            catch(Exception ex)
-            {
-                throw null;
-            }
 
+            catch (Exception ex)
+            {
+                //throw null;
+                return new JsonResult() { Data = bookModel };
+            }
         }
         /// <summary>
         /// Borrow
@@ -45,12 +48,34 @@ namespace BooksTesting.Repositories
             try
             {
                 var book = bookModel.FirstOrDefault(o => o.Id == bookID);
-                book.BorrowBy = new UserModel() {  };
+                if (book != null)
+                {
+                    book.BorrowBy = new UserModel() { Name = username };
+                }
                 result = true;
             }
             catch (Exception ex)
             {
-                // lof errir here 
+                // log errir here 
+                throw ex;
+            }
+            return new JsonResult() { Data = result };
+        }
+        public JsonResult UndoBorrow(string bookID)
+        {
+            bool result = false;
+            try
+            {
+                var book = bookModel.FirstOrDefault(o => o.Id == bookID);
+                if (book != null)
+                {
+                    book.BorrowBy = null;
+                }
+                result = true;
+            }
+            catch (Exception ex)
+            {
+                // log errir here 
                 throw ex;
             }
             return new JsonResult() { Data = result };

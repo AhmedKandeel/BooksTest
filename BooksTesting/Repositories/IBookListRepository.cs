@@ -11,5 +11,6 @@ namespace BooksTesting.Repositories
     {
         JsonResult GetBooksList();
         JsonResult Borrow(string bookID,string username);
+        JsonResult UndoBorrow(string bookID);
     }
 }
