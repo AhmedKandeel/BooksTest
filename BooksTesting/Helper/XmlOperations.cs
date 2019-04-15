@@ -28,12 +28,12 @@ namespace BooksTesting.Models
                 string xmlPath= ConfigurationManager.AppSettings.Get("XMLPath");
                 if (!string.IsNullOrEmpty(xmlPath))
                 {
-                    XmlSerializer serializer = new XmlSerializer(typeof(Catalog));
-                    using (FileStream fileStream = new FileStream(xmlPath, FileMode.Open))
-                    {
-                        Catalog result = (Catalog)serializer.Deserialize(fileStream);
-                        listOfBooks= result.Book;
-                    }
+                   XmlSerializer serializer = new XmlSerializer(typeof(Catalog));
+                   using (FileStream fileStream = new FileStream(HttpContext.Current.Server.MapPath(xmlPath), FileMode.Open))
+                   {
+                       Catalog result = (Catalog)serializer.Deserialize(fileStream);
+                       listOfBooks = result.Book;
+                   }  
                 }
             }
             catch (Exception ex)
